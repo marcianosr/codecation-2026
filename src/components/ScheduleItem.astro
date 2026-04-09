@@ -1,0 +1,105 @@
+---
+import type { ScheduleItem } from '../data/schedule';
+
+interface Props {
+  item: ScheduleItem;
+  dayDate: string;
+}
+
+const { item, dayDate } = Astro.props;
+
+const timeLabel =
+  item.start && item.end
+    ? `${item.start} – ${item.end}`
+    : item.start
+      ? `${item.start} –`
+      : null;
+---
+
+<li
+  data-start={item.start ?? undefined}
+  data-end={item.end ?? undefined}
+  data-activity={item.activity}
+  data-date={dayDate}
+  class:list={['item', { 'item--timeless': !item.start }]}
+>
+  {
+    timeLabel ? (
+      <span class="time">{timeLabel}</span>
+    ) : (
+      <span class="time time--empty" aria-hidden="true">??</span>
+    )
+  }
+  <span class="activity">{item.activity}</span>
+  <span class="now-badge" aria-label="Nu bezig">Nu</span>
+</li>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: 7rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item:last-child {
+    border-bottom: none;
+  }
+
+  .item--timeless {
+    opacity: 0.5;
+  }
+
+  .time {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .time--empty {
+    letter-spacing: 0.1em;
+  }
+
+  .activity {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .now-badge {
+    display: none;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--now-text);
+    background: var(--now-bg);
+    border: 1px solid var(--now-border);
+    border-radius: 4px;
+    padding: 0.125rem 0.375rem;
+    white-space: nowrap;
+  }
+
+  .item.is-now {
+    background: var(--now-bg);
+    margin: 0 -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 6px;
+    border-bottom-color: transparent;
+  }
+
+  .item.is-now .time {
+    color: var(--now-text);
+  }
+
+  .item.is-now .activity {
+    font-weight: 500;
+  }
+
+  .item.is-now .now-badge {
+    display: inline-block;
+  }
+</style>

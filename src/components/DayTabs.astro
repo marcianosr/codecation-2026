@@ -1,0 +1,198 @@
+---
+import type { Day } from '../data/schedule';
+
+interface Props {
+  days: Day[];
+}
+
+const { days } = Astro.props;
+---
+
+<div class="tabs" role="tablist" aria-label="Dagen">
+  {
+    days.map((day) => (
+      <button
+        role="tab"
+        data-tab={day.id}
+        aria-controls={`panel-${day.id}`}
+        class="tab"
+      >
+        {day.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  const EVENT_START_DATE = '2026-04-17';
+  const EVENT_END_DATE = '2026-04-20';
+  const SESSION_KEY = 'codecation-active-day';
+
+  function toAmsterdamDateStr(date: Date): string {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Europe/Amsterdam',
+    }).format(date);
+  }
+
+  function isBetween(dateStr: string, start: string, end: string): boolean {
+    return dateStr >= start && dateStr <= end;
+  }
+
+  function dayIdForDate(dateStr: string): string | null {
+    const map: Record<string, string> = {
+      '2026-04-17': 'vrijdag',
+      '2026-04-18': 'zaterdag',
+      '2026-04-19': 'zondag',
+      '2026-04-20': 'maandag',
+    };
+    return map[dateStr] ?? null;
+  }
+
+  function getDefaultDay(): string {
+    const stored = sessionStorage.getItem(SESSION_KEY);
+    if (stored) return stored;
+
+    const todayStr = toAmsterdamDateStr(new Date());
+    if (isBetween(todayStr, EVENT_START_DATE, EVENT_END_DATE)) {
+      return dayIdForDate(todayStr) ?? 'vrijdag';
+    }
+    return 'vrijdag';
+  }
+
+  function activateDay(dayId: string) {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    const panels = document.querySelectorAll<HTMLElement>('[data-day]');
+
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tab === dayId;
+      tab.setAttribute('aria-selected', String(isActive));
+      tab.classList.toggle('tab--active', isActive);
+    });
+
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.day !== dayId;
+    });
+
+    sessionStorage.setItem(SESSION_KEY, dayId);
+    updateNowIndicator();
+  }
+
+  function toAmsterdamMinutes(date: Date): number {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Amsterdam',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(date);
+    const h = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
+    const m = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
+    return h * 60 + m;
+  }
+
+  function updateNowIndicator() {
+    // Clear all existing indicators
+    document.querySelectorAll('.is-now').forEach((el) => el.classList.remove('is-now'));
+
+    const todayDate = toAmsterdamDateStr(new Date());
+    const todayPanel = document.querySelector<HTMLElement>(`[data-day][data-date="${todayDate}"]`);
+    if (!todayPanel) return;
+
+    const nowMinutes = toAmsterdamMinutes(new Date());
+    const items = Array.from(todayPanel.querySelectorAll<HTMLElement>('[data-start]'));
+
+    // Find active item: prefer the shortest (most specific) overlapping range
+    let activeItem: HTMLElement | null = null;
+    let shortestDuration = Infinity;
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const startStr = item.dataset.start;
+      if (!startStr) continue;
+
+      const [sh, sm] = startStr.split(':').map(Number);
+      const startMinutes = sh * 60 + sm;
+
+      let endMinutes: number;
+      const endStr = item.dataset.end;
+      if (endStr) {
+        const [eh, em] = endStr.split(':').map(Number);
+        endMinutes = eh * 60 + em;
+      } else {
+        // Open-ended: use next item's start or midnight
+        const nextStart = items[i + 1]?.dataset.start;
+        if (nextStart) {
+          const [nh, nm] = nextStart.split(':').map(Number);
+          endMinutes = nh * 60 + nm;
+        } else {
+          endMinutes = 24 * 60;
+        }
+      }
+
+      if (nowMinutes >= startMinutes && nowMinutes < endMinutes) {
+        const duration = endMinutes - startMinutes;
+        if (duration < shortestDuration) {
+          shortestDuration = duration;
+          activeItem = item;
+        }
+      }
+    }
+
+    if (activeItem) {
+      activeItem.classList.add('is-now');
+      activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  // Init
+  const defaultDay = getDefaultDay();
+  activateDay(defaultDay);
+
+  document.querySelectorAll<HTMLButtonElement>('[role="tab"]').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      if (tab.dataset.tab) activateDay(tab.dataset.tab);
+    });
+  });
+
+  // Refresh indicator every minute
+  setInterval(updateNowIndicator, 60_000);
+</script>
+
+<style>
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: none;
+    font-size: 0.875rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+
+  .tab:hover {
+    color: var(--text);
+    border-color: #d1d5db;
+  }
+
+  .tab--active {
+    color: var(--text);
+    background: var(--text);
+    color: white;
+    border-color: var(--text);
+  }
+</style>

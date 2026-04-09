@@ -1,0 +1,64 @@
+export type ScheduleItem = {
+  start: string | null;
+  end: string | null;
+  activity: string;
+};
+
+export type Day = {
+  id: 'vrijdag' | 'zaterdag' | 'zondag' | 'maandag';
+  label: string;
+  date: string;
+  items: ScheduleItem[];
+};
+
+export const SCHEDULE: Day[] = [
+  {
+    id: 'vrijdag',
+    label: 'Vrijdag',
+    date: '2026-04-17',
+    items: [
+      { start: '17:30', end: '18:00', activity: 'Inloop' },
+      { start: '18:00', end: '20:00', activity: 'Gourmetten' },
+      { start: '20:00', end: '20:30', activity: 'Introductie projecten' },
+      { start: '20:30', end: null, activity: 'Programmeren' },
+    ],
+  },
+  {
+    id: 'zaterdag',
+    label: 'Zaterdag',
+    date: '2026-04-18',
+    items: [
+      { start: '09:00', end: '10:00', activity: 'Ontbijt / Programmeren' },
+      { start: '10:00', end: '10:30', activity: 'Stand-up voor projecten' },
+      { start: '10:30', end: '12:15', activity: 'Programmeren' },
+      { start: '12:15', end: '12:55', activity: 'Klaarmaken en reis naar Paintball Warriors te Baarlo' },
+      { start: '13:00', end: '15:00', activity: 'Paintballen' },
+      { start: '15:00', end: '15:30', activity: 'Naar het huisje' },
+      { start: '15:30', end: '17:30', activity: 'Opfrissen en naar restaurant' },
+      { start: '18:00', end: null, activity: 'Restaurant' },
+      { start: null, end: null, activity: 'Verder hacken voor de echte diehards' },
+    ],
+  },
+  {
+    id: 'zondag',
+    label: 'Zondag',
+    date: '2026-04-19',
+    items: [
+      { start: '09:00', end: '10:00', activity: 'Ontbijt / Programmeren' },
+      { start: '10:00', end: '10:30', activity: 'Stand-up voor projecten' },
+      { start: '10:30', end: '17:00', activity: 'Programmeren' },
+      { start: '12:30', end: '12:40', activity: 'Lunch and Learn door Aschwin' },
+      { start: '17:00', end: '18:00', activity: 'Eindpresentaties' },
+      { start: '18:00', end: '18:30', activity: 'Eten afhalen' },
+      { start: '18:30', end: null, activity: 'Opruimen + schoonmaak + Uitchecken' },
+    ],
+  },
+  {
+    id: 'maandag',
+    label: 'Maandag',
+    date: '2026-04-20',
+    items: [{ start: '09:00', end: '10:00', activity: 'Ontbijt / Uitchecken' }],
+  },
+];
+
+export const EVENT_START = '2026-04-17T17:30:00+02:00';

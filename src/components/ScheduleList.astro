@@ -1,0 +1,28 @@
+---
+import type { Day } from '../data/schedule';
+import ScheduleItem from './ScheduleItem.astro';
+
+interface Props {
+  day: Day;
+  hidden?: boolean;
+}
+
+const { day, hidden = false } = Astro.props;
+---
+
+<section data-day={day.id} data-date={day.date} hidden={hidden || undefined}>
+  <ul>
+    {day.items.map((item) => <ScheduleItem item={item} dayDate={day.date} />)}
+  </ul>
+</section>
+
+<style>
+  section {
+    margin-top: 1rem;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

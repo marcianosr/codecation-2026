@@ -1,0 +1,140 @@
+---
+import { EVENT_START } from '../data/schedule';
+---
+
+<div
+  id="countdown"
+  role="timer"
+  aria-live="polite"
+  aria-atomic="true"
+  data-event-start={EVENT_START}
+>
+  <span class="countdown-label" id="countdown-label"></span>
+  <span class="countdown-value" id="countdown-value"></span>
+</div>
+
+<script>
+  const containerEl = document.getElementById('countdown') as HTMLElement;
+  const labelEl = document.getElementById('countdown-label') as HTMLElement;
+  const valueEl = document.getElementById('countdown-value') as HTMLElement;
+
+  const eventStart = new Date(containerEl.dataset.eventStart!);
+
+  function toAmsterdamMinutes(date: Date): number {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Amsterdam',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(date);
+    const h = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
+    const m = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
+    return h * 60 + m;
+  }
+
+  function toAmsterdamDateStr(date: Date): string {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Europe/Amsterdam',
+    }).format(date);
+  }
+
+  function formatDuration(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${m}:${pad(s)}`;
+  }
+
+  interface NextActivity {
+    startMinutes: number;
+    label: string;
+  }
+
+  function getNextActivity(nowMinutes: number, todayPanel: Element): NextActivity | null {
+    const items = todayPanel.querySelectorAll<HTMLElement>('[data-start]');
+    for (const item of items) {
+      const start = item.dataset.start;
+      if (!start) continue;
+      const [h, m] = start.split(':').map(Number);
+      const startMinutes = h * 60 + m;
+      if (startMinutes > nowMinutes) {
+        return { startMinutes, label: item.dataset.activity ?? '' };
+      }
+    }
+    return null;
+  }
+
+  function setCountdown(label: string, value: string): void {
+    labelEl.textContent = label;
+    valueEl.textContent = value;
+    containerEl.hidden = false;
+  }
+
+  function clearCountdown(): void {
+    labelEl.textContent = '';
+    valueEl.textContent = '';
+    containerEl.hidden = true;
+  }
+
+  function tick(): void {
+    const now = new Date();
+
+    if (now < eventStart) {
+      setCountdown('Start over', formatDuration(eventStart.getTime() - now.getTime()));
+      return;
+    }
+
+    const todayDate = toAmsterdamDateStr(now);
+    const todayPanel = document.querySelector(`[data-day][data-date="${todayDate}"]`);
+
+    if (!todayPanel) {
+      clearCountdown();
+      return;
+    }
+
+    const nowMinutes = toAmsterdamMinutes(now);
+    const next = getNextActivity(nowMinutes, todayPanel);
+
+    if (!next) {
+      clearCountdown();
+      return;
+    }
+
+    const hh = String(Math.floor(next.startMinutes / 60)).padStart(2, '0');
+    const mm = String(next.startMinutes % 60).padStart(2, '0');
+    const nextDate = new Date(`${todayDate}T${hh}:${mm}:00+02:00`);
+    const diff = nextDate.getTime() - now.getTime();
+
+    setCountdown(`Volgende: ${next.label}`, formatDuration(diff));
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+<style>
+  #countdown {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 1.5rem;
+  }
+
+  #countdown[hidden] {
+    display: none;
+  }
+
+  .countdown-label {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .countdown-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+</style>

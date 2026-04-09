@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import ParticipantList from '../components/ParticipantList.astro';
+import { PARTICIPANTS } from '../data/participants';
+---
+
+<Base title="Deelnemers — CodeCation 2026">
+  <h1>Deelnemers</h1>
+  <p class="count">{PARTICIPANTS.length} deelnemers</p>
+  <ParticipantList participants={PARTICIPANTS} />
+</Base>
+
+<style>
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .count {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+</style>

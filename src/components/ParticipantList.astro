@@ -1,0 +1,29 @@
+---
+interface Props {
+  participants: string[];
+}
+
+const { participants } = Astro.props;
+---
+
+<ul class="participant-list">
+  {participants.map((name) => <li>{name}</li>)}
+</ul>
+
+<style>
+  .participant-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  li {
+    padding: 0.75rem 0;
+    font-size: 0.9375rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  li:last-child {
+    border-bottom: none;
+  }
+</style>
