@@ -25,7 +25,7 @@ const { days } = Astro.props;
 
 <script>
   const EVENT_START_DATE = '2026-04-17';
-  const EVENT_END_DATE = '2026-04-20';
+  const EVENT_END_DATE = '2026-04-19';
   const SESSION_KEY = 'codecation-active-day';
 
   function toAmsterdamDateStr(date: Date): string {
@@ -43,7 +43,6 @@ const { days } = Astro.props;
       '2026-04-17': 'vrijdag',
       '2026-04-18': 'zaterdag',
       '2026-04-19': 'zondag',
-      '2026-04-20': 'maandag',
     };
     return map[dateStr] ?? null;
   }

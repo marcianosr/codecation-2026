@@ -12,7 +12,7 @@ export type ScheduleItem = {
 };
 
 export type Day = {
-  id: 'vrijdag' | 'zaterdag' | 'zondag' | 'maandag';
+  id: 'vrijdag' | 'zaterdag' | 'zondag';
   label: string;
   date: string;
   items: ScheduleItem[];
@@ -59,12 +59,6 @@ export const SCHEDULE: Day[] = [
       { start: '18:00', end: '18:30', activity: 'Eten afhalen' },
       { start: '18:30', end: null, activity: 'Opruimen + schoonmaak + Uitchecken' },
     ],
-  },
-  {
-    id: 'maandag',
-    label: 'Maandag',
-    date: '2026-04-20',
-    items: [{ start: '09:00', end: '10:00', activity: 'Ontbijt / Uitchecken' }],
   },
 ];
 
