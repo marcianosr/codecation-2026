@@ -36,8 +36,8 @@ export const PARTICIPANTS: Participant[] = [
     bio: 'Staat altijd klaar om een PR te reviewen en schrijft altijd nuttiger comments dan "LGTM". Geheime hobby: de tabs-vs-spaces discussie opnieuw opstarten.',
   },
   {
-    name: 'Ruud',
-    photo: 'https://kabisa.nl/wp-content/uploads/2023/01/107_Ruud_Transparant2.png',
+    name: 'Piet de Vries',
+    photo: 'https://kabisa.nl/wp-content/uploads/2025/06/piet-de-vries-2-e1750831013836.png',
     bio: 'De rustige kracht achter de schermen. Lost problemen op voordat anderen ze zien. Zijn code werkt altijd — zijn uitleg ook.',
   },
   {
