@@ -12,6 +12,7 @@ const currentPath = Astro.url.pathname;
 const isSchedule = currentPath === base || currentPath === `${base}/`;
 const isDeelnemers = currentPath.includes('deelnemers');
 const isLocaties = currentPath.includes('locaties');
+const isInfo = currentPath.includes('info');
 ---
 
 <!doctype html>
@@ -31,6 +32,7 @@ const isLocaties = currentPath.includes('locaties');
           <a href={base || '/'} class:list={['nav-link', { active: isSchedule }]}>Programma</a>
           <a href={`${base}/deelnemers`} class:list={['nav-link', { active: isDeelnemers }]}>Deelnemers</a>
           <a href={`${base}/locaties`} class:list={['nav-link', { active: isLocaties }]}>Locaties</a>
+          <a href={`${base}/info`} class:list={['nav-link', { active: isInfo }]}>Info</a>
         </nav>
       </div>
     </header>
