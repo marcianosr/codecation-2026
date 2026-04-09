@@ -13,6 +13,11 @@ export type Participant = {
   stats: ParticipantStats;
 };
 
+export const OTHER_PRIORITIES: string[] = [
+  'Ruud Schroen',
+  'Matthijs Groen',
+];
+
 export const PARTICIPANTS: Participant[] = [
   {
     name: 'Tom Schoutens',
