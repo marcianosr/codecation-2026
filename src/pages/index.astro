@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Countdown from '../components/Countdown.astro';
+import NotificationToggle from '../components/NotificationToggle.astro';
 import DayTabs from '../components/DayTabs.astro';
 import ScheduleList from '../components/ScheduleList.astro';
 import { SCHEDULE } from '../data/schedule';
@@ -8,6 +9,7 @@ import { SCHEDULE } from '../data/schedule';
 
 <Base>
   <Countdown />
+  <NotificationToggle />
   <DayTabs days={SCHEDULE} />
   {SCHEDULE.map((day, i) => <ScheduleList day={day} hidden={i !== 0} />)}
 </Base>
