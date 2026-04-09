@@ -2,6 +2,7 @@ export type ScheduleItem = {
   start: string | null;
   end: string | null;
   activity: string;
+  mapUrl?: string;
 };
 
 export type Day = {
@@ -31,9 +32,9 @@ export const SCHEDULE: Day[] = [
       { start: '09:00', end: '10:00', activity: 'Ontbijt / Programmeren' },
       { start: '10:00', end: '10:30', activity: 'Stand-up voor projecten' },
       { start: '10:30', end: '12:15', activity: 'Programmeren' },
-      { start: '12:15', end: '12:55', activity: 'Klaarmaken en reis naar Paintball Warriors te Baarlo' },
-      { start: '13:00', end: '15:00', activity: 'Paintballen' },
-      { start: '15:00', end: '15:30', activity: 'Naar het huisje' },
+      { start: '12:15', end: '12:55', activity: 'Klaarmaken en reis naar Paintball Warriors te Baarlo', mapUrl: 'https://www.google.com/maps/dir/Dorperheideweg+12,5944+NK+Arcen/Hei+17a,5991+PC+Baarlo' },
+      { start: '13:00', end: '15:00', activity: 'Paintballen', mapUrl: 'https://www.google.com/maps/search/?api=1&query=Hei+17a,5991+PC+Baarlo' },
+      { start: '15:00', end: '15:30', activity: 'Naar het huisje', mapUrl: 'https://www.google.com/maps/dir/Hei+17a,5991+PC+Baarlo/Dorperheideweg+12,5944+NK+Arcen' },
       { start: '15:30', end: '17:30', activity: 'Opfrissen en naar restaurant' },
       { start: '18:00', end: null, activity: 'Restaurant' },
       { start: null, end: null, activity: 'Verder hacken voor de echte diehards' },
