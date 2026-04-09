@@ -23,6 +23,18 @@ export const LOCATIONS: Location[] = [
     appleMapsUrl: 'https://maps.apple.com/?address=Dorperheideweg+12,5944+NK+Arcen,Netherlands',
   },
   {
+    id: 'restaurant',
+    name: 'Hertog Jan Proeverij',
+    address: 'Kruisweg 43',
+    postalCity: '5944 EM Arcen',
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Kruisweg+43,5944+EM+Arcen',
+    appleMapsUrl: 'https://maps.apple.com/?address=Kruisweg+43,5944+EM+Arcen,Netherlands',
+    routeFromAccommodation: {
+      google: `https://www.google.com/maps/dir/${encodeURIComponent(ACCOMMODATION_ADDRESS)}/${encodeURIComponent('Kruisweg 43, 5944 EM Arcen')}`,
+      apple: `https://maps.apple.com/?saddr=${encodeURIComponent(ACCOMMODATION_ADDRESS)}&daddr=${encodeURIComponent('Kruisweg 43, 5944 EM Arcen')}`,
+    },
+  },
+  {
     id: 'paintball',
     name: 'Paintball Warriors',
     address: 'Hei 17a',
