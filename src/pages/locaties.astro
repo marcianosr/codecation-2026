@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import LocationCard from '../components/LocationCard.astro';
+import { LOCATIONS } from '../data/locations';
+---
+
+<Base title="Locaties — CodeCation 2026">
+  <h1>Locaties</h1>
+  <p class="intro">Alle locaties op een rij.</p>
+  <div class="locations">
+    {LOCATIONS.map((location) => <LocationCard location={location} />)}
+  </div>
+</Base>
+
+<style>
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .intro {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .locations {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+</style>

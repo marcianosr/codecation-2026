@@ -1,0 +1,174 @@
+---
+import type { Location } from '../data/locations';
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+---
+
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2 class="name">{location.name}</h2>
+      <address>
+        {location.address}<br />
+        {location.postalCity}
+      </address>
+    </div>
+    <a
+      class="maps-link"
+      href={location.googleMapsUrl}
+      data-google={location.googleMapsUrl}
+      data-apple={location.appleMapsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Open ${location.name} in Maps`}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+      Open in Maps
+    </a>
+  </div>
+
+  {
+    location.routeFromAccommodation && (
+      <div class="route">
+        <span class="route-label">Route vanuit het huisje</span>
+        <div class="route-links">
+          <a
+            href={location.routeFromAccommodation.google}
+            class="route-btn route-btn--google"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Maps
+          </a>
+          <a
+            href={location.routeFromAccommodation.apple}
+            class="route-btn route-btn--apple"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Apple Maps
+          </a>
+        </div>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  // On Apple devices, prefer Apple Maps for the main "Open in Maps" link
+  // Detect iOS/iPadOS — the main case where Apple Maps is preferred
+  const isApple = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+
+  if (isApple) {
+    document.querySelectorAll<HTMLAnchorElement>('.maps-link[data-apple]').forEach((link) => {
+      link.href = link.dataset.apple!;
+    });
+  }
+</script>
+
+<style>
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  address {
+    font-style: normal;
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .maps-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text);
+    background: #f3f4f6;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .maps-link:hover {
+    background: #e5e7eb;
+  }
+
+  .route {
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .route-label {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .route-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .route-btn {
+    display: inline-block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    padding: 0.5rem 0.875rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .route-btn--google {
+    background: #fff;
+    color: var(--text);
+  }
+
+  .route-btn--google:hover {
+    background: #f3f4f6;
+  }
+
+  .route-btn--apple {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  .route-btn--apple:hover {
+    opacity: 0.85;
+  }
+</style>
