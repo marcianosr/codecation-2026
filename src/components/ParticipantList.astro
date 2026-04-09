@@ -1,13 +1,27 @@
 ---
+import type { Participant } from '../data/participants';
+
 interface Props {
-  participants: string[];
+  participants: Participant[];
 }
 
 const { participants } = Astro.props;
 ---
 
 <ul class="participant-list">
-  {participants.map((name) => <li>{name}</li>)}
+  {
+    participants.map((p) => (
+      <li class="participant">
+        <div class="photo-wrap">
+          <img src={p.photo} alt={p.name} width="80" height="80" loading="lazy" />
+        </div>
+        <div class="info">
+          <span class="name">{p.name}</span>
+          <p class="bio">{p.bio}</p>
+        </div>
+      </li>
+    ))
+  }
 </ul>
 
 <style>
@@ -17,13 +31,49 @@ const { participants } = Astro.props;
     gap: 0;
   }
 
-  li {
-    padding: 0.75rem 0;
-    font-size: 0.9375rem;
+  .participant {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
     border-bottom: 1px solid var(--border);
   }
 
-  li:last-child {
+  .participant:last-child {
     border-bottom: none;
+  }
+
+  .photo-wrap {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f3f4f6;
+  }
+
+  .photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.125rem;
+  }
+
+  .name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .bio {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.5;
   }
 </style>
