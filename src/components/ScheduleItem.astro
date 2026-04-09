@@ -1,5 +1,5 @@
 ---
-import type { ScheduleItem } from '../data/schedule';
+import type { ScheduleItem, ScheduleLink } from '../data/schedule';
 
 interface Props {
   item: ScheduleItem;
@@ -32,11 +32,19 @@ const timeLabel =
   }
   <span class="activity">
     {item.activity}
-    {item.mapUrl && (
-      <a class="map-link" href={item.mapUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open kaart voor ${item.activity}`}>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Kaart
-      </a>
+    {item.links && item.links.length > 0 && (
+      <span class="item-links">
+        {item.links.map((link: ScheduleLink) => (
+          <a class="item-link" href={link.url} target="_blank" rel="noopener noreferrer" aria-label={`${link.label} voor ${item.activity}`}>
+            {link.icon === 'map' ? (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ) : (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>
+            )}
+            {link.label}
+          </a>
+        ))}
+      </span>
     )}
   </span>
   <span class="now-badge" aria-label="Nu bezig">Nu</span>
@@ -79,7 +87,12 @@ const timeLabel =
     gap: 0.25rem;
   }
 
-  .map-link {
+  .item-links {
+    display: flex;
+    gap: 0.625rem;
+  }
+
+  .item-link {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
@@ -89,7 +102,7 @@ const timeLabel =
     width: fit-content;
   }
 
-  .map-link:hover {
+  .item-link:hover {
     color: var(--text);
   }
 
