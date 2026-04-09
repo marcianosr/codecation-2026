@@ -12,7 +12,7 @@ const SORT_OPTIONS = [
   { key: 'bugs',    label: 'Bugs gesquashed',    dir: 'desc' },
   { key: 'koffie',  label: 'Koffie p/dag',       dir: 'desc' },
   { key: 'lgtm',    label: 'Strengste reviewer', dir: 'asc'  },
-  { key: 'commits', label: 'Vroegste commits',   dir: 'desc' },
+  { key: 'tokens',  label: 'AI tokens verbrand',  dir: 'desc' },
 ] as const;
 ---
 
@@ -33,7 +33,7 @@ const SORT_OPTIONS = [
       data-bugs={p.stats.bugs}
       data-koffie={p.stats.koffie}
       data-lgtm={p.stats.lgtm}
-      data-commits={p.stats.commits}
+      data-tokens={p.stats.tokens}
     >
       <button class="participant-toggle" aria-expanded="false">
         <div class="photo-wrap">
@@ -67,8 +67,8 @@ const SORT_OPTIONS = [
             <dd>{p.stats.lgtm}%</dd>
           </div>
           <div class="stat">
-            <dt>Commits &lt;09:00</dt>
-            <dd>{p.stats.commits}</dd>
+            <dt>AI tokens verbrand</dt>
+            <dd>{p.stats.tokens.toLocaleString('nl-NL')}k</dd>
           </div>
         </dl>
         </div>
