@@ -82,7 +82,7 @@ export const PARTICIPANTS: Participant[] = [
   {
     name: 'Marciano Schildmeijer',
     photo: 'https://kabisa.nl/wp-content/uploads/2023/09/69_Marciano_Transparant1.png',
-    bio: 'Marciano bouwde een tool om collega\'s kritisch te ondervragen over hun code, om vervolgens elke scheet van een AI blindelings als de absolute waarheid te accepteren.',
+    bio: 'Marciano bouwde een tool om collega\'s kritisch te ondervragen over hun code, om vervolgens elke scheet van een AI blindelings als de absolute waarheid te accepteren. Voegt onbedoeld horizontale scrolls toe op elke mobiele website die hij released.',
     stats: { humor: 94, bugs: 1337, koffie: 3.5, lgtm: 11, tokens: 9001 },
   },
 ];

@@ -30,6 +30,22 @@ const fullAddress = `${INFO.adres.straat}, ${INFO.adres.postcode} ${INFO.adres.p
     </section>
 
     <section class="card">
+      <h2>Boeking</h2>
+      <dl>
+        <div class="row">
+          <dt>Nummer</dt>
+          <dd>
+            <button class="copy-btn" data-copy={INFO.boeking.nummer}>{INFO.boeking.nummer}</button>
+          </dd>
+        </div>
+        <div class="row">
+          <dt>Type</dt>
+          <dd>{INFO.boeking.type}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="card">
       <h2>Adres huisje</h2>
       <dl>
         <div class="row">
