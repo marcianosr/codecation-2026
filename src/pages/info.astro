@@ -59,6 +59,20 @@ const fullAddress = `${INFO.adres.straat}, ${INFO.adres.postcode} ${INFO.adres.p
       </dl>
     </section>
 
+    <section class="card">
+      <h2>Afsluiting en vertrek</h2>
+      <ul class="checklist">
+        {INFO.afsluiting.map((item) => (
+          <li>
+            <label>
+              <input type="checkbox" />
+              <span>{item}</span>
+            </label>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     {INFO.notities.length > 0 && (
       <section class="card">
         <h2>Notities</h2>
@@ -172,6 +186,39 @@ const fullAddress = `${INFO.adres.straat}, ${INFO.adres.postcode} ${INFO.adres.p
   .copy-btn--copied {
     color: #16a34a;
     text-decoration-color: transparent;
+  }
+
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .checklist li {
+    list-style: none;
+  }
+
+  .checklist label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .checklist input[type="checkbox"] {
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--text);
+    cursor: pointer;
+  }
+
+  .checklist label:has(input:checked) span {
+    text-decoration: line-through;
+    color: var(--muted);
   }
 
   .notities {
