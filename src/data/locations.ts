@@ -17,7 +17,7 @@ export const LOCATIONS: Location[] = [
   {
     id: 'huisje',
     name: 'Het huisje',
-    address: 'Dorperheideweg 12',
+    address: 'Dorperheideweg 173 + 174',
     postalCity: '5944 NK Arcen',
     googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Dorperheideweg+12,5944+NK+Arcen',
     appleMapsUrl: 'https://maps.apple.com/?address=Dorperheideweg+12,5944+NK+Arcen,Netherlands',

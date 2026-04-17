@@ -8,8 +8,8 @@ export type InfoData = {
 
 export const INFO: InfoData = {
   // Vul in voor het weekend:
-  wifi: { naam: null, wachtwoord: null },
-  adres: { straat: 'Dorperheideweg 12', postcode: '5944 NK', plaats: 'Arcen' },
+  wifi: { naam: 'ziggo5545156', wachtwoord: 'dmc6zvrzKjnM' },
+  adres: { straat: 'Dorperheideweg 173 + 174', postcode: '5944 NK', plaats: 'Arcen' },
   boeking: { nummer: '00026171661000', type: 'Comfort villa 12 cv12' },
   afsluiting: [
     'De bedden afhalen en het bedlinnen achterlaten in de hal van de accommodatie.',
